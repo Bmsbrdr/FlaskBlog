@@ -1,20 +1,21 @@
 [
     {
         "id": 1,
-        "author": "John Doe",
-        "title": "First Post",
-        "content": "This is my first post."
+        "author": "a",
+        "title": "a",
+        "content": "abcde",
+        "likes": 4
     },
     {
         "id": 2,
-        "author": "Jane Doe",
-        "title": "Second Post",
-        "content": "This is another post."
+        "author": "a",
+        "title": "a",
+        "content": "abc"
     },
     {
         "id": 3,
-        "author": "Dennis",
-        "title": "Mein erster Blog",
-        "content": "Wow was f\u00fcr ein Eintrag!"
+        "author": "c",
+        "title": "c",
+        "content": "c"
     }
 ]

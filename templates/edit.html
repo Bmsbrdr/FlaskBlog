@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beitrag bearbeiten - FlaskBlog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Navigationsleiste -->
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">📝 FlaskBlog</a>
+    </nav>
+
+    <!-- Inhalt -->
+    <main class="container">
+        <article class="post">
+            <h2>Beitrag bearbeiten</h2>
+
+            <!-- Das Formular sendet per POST an die Update-Route mit der richtigen ID -->
+            <form method="POST" action="/edit/{{ blogentry.id }}" style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+
+                <div>
+                    <label for="title" style="display: block; font-weight: 600; margin-bottom: 5px;">Titel</label>
+                    <input type="text" id="title" name="title" value="{{ blogentry.title }}" required
+                           style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem;">
+                </div>
+
+                <div>
+                    <label for="author" style="display: block; font-weight: 600; margin-bottom: 5px;">Autor</label>
+                    <input type="text" id="author" name="author" value="{{ blogentry.author }}" required
+                           style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem;">
+                </div>
+
+                <div>
+                    <label for="content" style="display: block; font-weight: 600; margin-bottom: 5px;">Inhalt</label>
+                    <textarea id="content" name="content" rows="6" required
+                              style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem; font-family: inherit;">{{ blogentry.content }}</textarea>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="submit"
+                            style="background-color: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+                        Speichern
+                    </button>
+                    <a href="/"
+                       style="background-color: #6b7280; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; display: inline-block;">
+                        Abbrechen
+                    </a>
+                </div>
+
+            </form>
+        </article>
+    </main>
+</body>
+</html>

@@ -16,10 +16,33 @@
     <!-- Inhalt -->
     <main class="container">
         {% for blogentry in blogentries %}
+        <form method="POST" action="/like/{{ blogentry.author_id }}" style="display: flex; align-items: center; gap: 8px; margin-top: 15px;">
+            <button type="submit" style="background: none; border: 1px solid #e5e7eb; border-radius: 20px; padding: 6px 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s;">
+                <img src="{{ url_for('static', filename='like-icon.jpg') }}" alt="Like" style="width: 18px; height: 18px;">
+                <span style="font-weight: 600; color: #374151;">Like</span>
+            </button>
+            <span style="font-size: 0.95rem; color: #6b7280; font-weight: 500;">
+                {{ blogentry.likes }} Likes
+            </span>
+        </form>
         <article class="post">
             <h2>{{ blogentry.title }}</h2>
+            <h2>Post# {{ blogentry.author_id }}</h2>
             <div class="post-author">Von {{ blogentry.author }}</div>
             <p class="post-content">{{ blogentry.content }}</p>
+            <form method="POST" action="/delete/{{ blogentry.author_id -1 }}" style="margin-top: 10px;">
+                <button type="submit"
+                style="background-color: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer;"
+                onclick="return confirm('Möchtest du diesen Beitrag wirklich löschen?');">
+                Löschen
+                </button>
+            </form>
+            <form method="GET" action="/edit/{{ blogentry.author_id -1}}" style="margin-top: 10px;">
+                <button type="submit"
+                    style="background-color: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+                    Edit
+                </button>
+            </form>
         </article>
         {% endfor %}
     </main>
