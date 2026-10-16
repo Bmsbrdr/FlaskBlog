@@ -3,19 +3,21 @@
         "id": 1,
         "author": "a",
         "title": "a",
-        "content": "abcde",
+        "content": "abcdefg",
         "likes": 4
     },
     {
         "id": 2,
         "author": "a",
         "title": "a",
-        "content": "abc"
+        "content": "abc",
+        "likes": 2
     },
     {
         "id": 3,
         "author": "c",
         "title": "c",
-        "content": "c"
+        "content": "c",
+        "likes": 0
     }
 ]

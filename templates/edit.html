@@ -5,49 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beitrag bearbeiten - FlaskBlog</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .edit-form {
+            margin-top: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.95rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #111827;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.625rem;
+            border: 1px solid var(--border-color, #e5e7eb);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary, #4f46e5);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.625rem;
+            margin-top: 0.625rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            transition: background-color 0.2s;
+        }
+
+        .btn-save {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: #059669;
+        }
+
+        .btn-cancel {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #4b5563;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--primary, #4f46e5);
+            outline-offset: 4px;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Navigationsleiste -->
     <nav class="navbar">
         <a href="/" class="navbar-brand">📝 FlaskBlog</a>
     </nav>
 
-    <!-- Inhalt -->
     <main class="container">
         <article class="post">
             <h2>Beitrag bearbeiten</h2>
 
-            <!-- Das Formular sendet per POST an die Update-Route mit der richtigen ID -->
-            <form method="POST" action="/edit/{{ blogentry.id }}" style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+            <form method="POST" action="{{ url_for('edit_entry', id=blogentry.id) }}" class="edit-form">
 
-                <div>
-                    <label for="title" style="display: block; font-weight: 600; margin-bottom: 5px;">Titel</label>
-                    <input type="text" id="title" name="title" value="{{ blogentry.title }}" required
-                           style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem;">
+                <div class="form-group">
+                    <label for="title">Titel</label>
+                    <input type="text" id="title" name="title" value="{{ blogentry.title }}" required class="form-control">
                 </div>
 
-                <div>
-                    <label for="author" style="display: block; font-weight: 600; margin-bottom: 5px;">Autor</label>
-                    <input type="text" id="author" name="author" value="{{ blogentry.author }}" required
-                           style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem;">
+                <div class="form-group">
+                    <label for="author">Autor</label>
+                    <input type="text" id="author" name="author" value="{{ blogentry.author }}" required class="form-control" autocomplete="name">
                 </div>
 
-                <div>
-                    <label for="content" style="display: block; font-weight: 600; margin-bottom: 5px;">Inhalt</label>
-                    <textarea id="content" name="content" rows="6" required
-                              style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem; font-family: inherit;">{{ blogentry.content }}</textarea>
+                <div class="form-group">
+                    <label for="content">Inhalt</label>
+                    <textarea id="content" name="content" rows="6" required class="form-control">{{ blogentry.content }}</textarea>
                 </div>
 
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button type="submit"
-                            style="background-color: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
-                        Speichern
-                    </button>
-                    <a href="/"
-                       style="background-color: #6b7280; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; display: inline-block;">
-                        Abbrechen
-                    </a>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-save">Speichern</button>
+                    <a href="/" class="btn btn-cancel">Abbrechen</a>
                 </div>
 
             </form>

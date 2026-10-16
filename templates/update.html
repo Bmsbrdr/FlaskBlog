@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beitrag bearbeiten - FlaskBlog</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-    <!-- Spezifisches Styling für das Formular, identisch zu add.html -->
     <style>
         .form-card {
             background-color: var(--card-bg, #ffffff);
@@ -28,7 +26,6 @@
             font-size: 0.95rem;
         }
 
-        /* Modernes Styling für Inputs und Textarea */
         .form-control {
             width: 100%;
             padding: 0.75rem;
@@ -40,7 +37,6 @@
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        /* Blauer Rahmen bei Klick/Fokus */
         .form-control:focus {
             outline: none;
             border-color: var(--primary, #4f46e5);
@@ -52,7 +48,6 @@
             resize: vertical;
         }
 
-        /* Professioneller Button */
         .btn-submit {
             background-color: var(--primary, #4f46e5);
             color: white;
@@ -70,7 +65,11 @@
             background-color: #4338ca;
         }
 
-        /* Link zurück zur Übersicht */
+        .btn-submit:focus-visible, .back-link:focus-visible {
+            outline: 2px solid var(--primary, #4f46e5);
+            outline-offset: 4px;
+        }
+
         .back-link {
             display: inline-block;
             margin-top: 1.5rem;
@@ -87,22 +86,19 @@
 </head>
 <body>
 
-    <!-- Navigationsleiste -->
     <nav class="navbar">
         <a href="/" class="navbar-brand">📝 FlaskBlog</a>
     </nav>
 
-    <!-- Zentrierter Formularbereich -->
     <main class="container">
         <h1>Beitrag bearbeiten</h1>
 
         <div class="form-card">
-            <!-- Action sendet per POST an die ID des jeweiligen Blogeintrags -->
-            <form method="POST" action="/edit/{{ blogentry.id }}">
+            <form method="POST" action="{{ url_for('edit_entry', id=blogentry.id) }}">
 
                 <div class="form-group">
                     <label for="author">Autor</label>
-                    <input type="text" id="author" name="author" class="form-control" value="{{ blogentry.author }}" required placeholder="Dein Name">
+                    <input type="text" id="author" name="author" class="form-control" value="{{ blogentry.author }}" required placeholder="Dein Name" autocomplete="name">
                 </div>
 
                 <div class="form-group">

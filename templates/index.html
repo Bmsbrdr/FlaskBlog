@@ -5,44 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Flask Blog</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .post-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-like {
+            background: none;
+            border: 1px solid var(--border-color, #e5e7eb);
+            border-radius: 20px;
+            padding: 6px 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-like:hover {
+            background-color: var(--bg-color, #f8f9fa);
+        }
+
+        .like-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .like-count {
+            font-size: 0.95rem;
+            color: var(--text-muted, #6c757d);
+            font-weight: 500;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-secondary {
+            background-color: #4b5563;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #374151;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+            border-top: 1px solid var(--border-color, #e5e7eb);
+            padding-top: 1rem;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Navigationsleiste -->
     <nav class="navbar">
-        <a href="#" class="navbar-brand">📝 FlaskBlog</a>
+        <a href="/" class="navbar-brand">📝 FlaskBlog</a>
     </nav>
 
-    <!-- Inhalt -->
     <main class="container">
         {% for blogentry in blogentries %}
-        <form method="POST" action="/like/{{ blogentry.author_id }}" style="display: flex; align-items: center; gap: 8px; margin-top: 15px;">
-            <button type="submit" style="background: none; border: 1px solid #e5e7eb; border-radius: 20px; padding: 6px 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s;">
-                <img src="{{ url_for('static', filename='like-icon.jpg') }}" alt="Like" style="width: 18px; height: 18px;">
-                <span style="font-weight: 600; color: #374151;">Like</span>
-            </button>
-            <span style="font-size: 0.95rem; color: #6b7280; font-weight: 500;">
-                {{ blogentry.likes }} Likes
-            </span>
-        </form>
         <article class="post">
             <h2>{{ blogentry.title }}</h2>
-            <h2>Post# {{ blogentry.author_id }}</h2>
-            <div class="post-author">Von {{ blogentry.author }}</div>
+            <div class="post-author">Von {{ blogentry.author }} (Post #{{ blogentry.id }})</div>
+
             <p class="post-content">{{ blogentry.content }}</p>
-            <form method="POST" action="/delete/{{ blogentry.author_id -1 }}" style="margin-top: 10px;">
-                <button type="submit"
-                style="background-color: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer;"
-                onclick="return confirm('Möchtest du diesen Beitrag wirklich löschen?');">
-                Löschen
+
+            <!-- Like Bereich innerhalb des Posts -->
+            <form method="POST" action="{{ url_for('like_entry', id=blogentry.id) }}" class="post-actions">
+                <button type="submit" class="btn-like">
+                    <img src="{{ url_for('static', filename='like-icon.jpg') }}" alt="Like" class="like-icon">
+                    <span style="font-weight: 600; color: #374151;">Like</span>
                 </button>
+                <span class="like-count">
+                    {{ blogentry.likes }} Likes
+                </span>
             </form>
-            <form method="GET" action="/edit/{{ blogentry.author_id -1}}" style="margin-top: 10px;">
-                <button type="submit"
-                    style="background-color: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
-                    Edit
-                </button>
-            </form>
+
+            <!-- Admin Buttons (Edit / Delete) sauber getrennt -->
+            <div class="admin-actions">
+                <a href="{{ url_for('edit_entry', id=blogentry.id) }}" class="btn-secondary">Bearbeiten</a>
+
+                <form method="POST" action="{{ url_for('delete_entry', id=blogentry.id) }}">
+                    <button type="submit" class="btn-danger" onclick="return confirm('Möchtest du diesen Beitrag wirklich löschen?');">
+                        Löschen
+                    </button>
+                </form>
+            </div>
         </article>
         {% endfor %}
     </main>
